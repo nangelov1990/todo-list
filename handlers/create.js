@@ -4,7 +4,7 @@ let query = require('querystring')
 
 let responsesHelper = require('../helpers/responses')
 let datesHelper = require('../helpers/dates')
-let todoState = require('../helpers/todoState')
+let todoState = require('../helpers/todo-state')
 
 let db = require('../contents/mock-db')
 
@@ -27,14 +27,15 @@ module.exports = (req, res) => {
       req.on('end', () => {
         let today = datesHelper.getToday()
         let todoParsed = query.parse(body)
+        let index = db.length
         let todoItem = {
+          'id': index,
           'title': todoParsed.title,
           'description': todoParsed.description,
           'state': todoState.Pending,
           'dateCreated': today
         }
-        let index = Object.keys(db).length
-        db[index] = todoItem
+        db.push(todoItem)
 
         let todoCreatedHtml = '<a href="/">Home</a><br /><h2>TODO created</h2>'
         responsesHelper.ok(res, todoCreatedHtml, 'text/html')

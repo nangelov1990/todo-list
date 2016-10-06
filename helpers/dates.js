@@ -1,6 +1,6 @@
-module.exports = [
+module.exports = {
   getToday
-]
+}
 
 function getToday () {
   let today = new Date()

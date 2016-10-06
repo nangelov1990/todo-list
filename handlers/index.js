@@ -1,7 +1,9 @@
 let homePage = require('./home-page')
 let createTodo = require('./create')
+let allTodos = require('./list-all')
 
-module.exports = {
-  'homePage': homePage,
-  'createTODO': createTodo
-}
+module.exports = [
+  homePage,
+  createTodo,
+  allTodos
+]

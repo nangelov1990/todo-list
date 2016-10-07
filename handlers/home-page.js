@@ -1,3 +1,4 @@
+'use strict'
 let url = require('url')
 let fs = require('fs')
 

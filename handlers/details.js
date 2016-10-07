@@ -1,3 +1,4 @@
+'use strict'
 let url = require('url')
 let fs = require('fs')
 
@@ -58,6 +59,14 @@ module.exports = (req, res) => {
       pageContent += pageCommentsHeading +
         todo.id +
         pageCommentsForm
+
+      if (todo.comments.length > 0) {
+        pageContent += '<h3>Comments</h3><ul>'
+        todo.comments.forEach((comment) => {
+          pageContent += `<li><span>${comment.text}</span></li>`
+        })
+        pageContent += '</ul>'
+      }
 
       html = pageHeader +
         pageHeading +

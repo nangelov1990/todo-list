@@ -1,5 +1,6 @@
-var fs = require('fs')
-var url = require('url')
+'use strict'
+let fs = require('fs')
+let url = require('url')
 
 let responsesHelper = require('../helpers/responses.js')
 
@@ -21,23 +22,12 @@ function getContentType (filepath) {
 
 module.exports = (req, res) => {
   req.pathname = req.pathname || url.parse(req.url).pathname
-
-  // if (!req.pathname.startsWith('/content')) {
-  //   console.error(`Forbidden resource, url: ${req.pathname}`)
-
-  //   res.writeHead(403)
-  //   res.write('403 Forbidden')
-  //   res.end()
-
-  //   return true
-  // }
-
-  var filepath = '.' + req.pathname
+  let filepath = '.' + req.pathname
 
   fs.readFile(filepath, (err, data) => {
     if (err) responsesHelper.notFound(err, res, '')
 
-    var contentType = getContentType(filepath)
+    let contentType = getContentType(filepath)
 
     if (!contentType) {
       console.error('Non-supported file format requested.')

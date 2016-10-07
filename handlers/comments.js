@@ -1,5 +1,8 @@
+'use strict'
 let url = require('url')
 let query = require('querystring')
+
+let datesHelper = require('../helpers/dates')
 
 let todos = require('../contents/mock-db')
 
@@ -19,10 +22,15 @@ module.exports = (req, res) => {
 
       req.on('data', (data) => { body += data })
       req.on('end', () => {
-        let comment = query.parse(body).comment
+        let commentText = query.parse(body).comment
 
-        if (comment) {
-          todo.comments.push(comment)
+        if (commentText) {
+          let today = datesHelper.getToday()
+          let commentItem = {
+            'text': commentText,
+            'dateCreated': today
+          }
+          todo.comments.push(commentItem)
 
           res.writeHead(302, {
             'Location': '/details/' + index

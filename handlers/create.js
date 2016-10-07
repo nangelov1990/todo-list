@@ -1,3 +1,4 @@
+'use strict'
 let url = require('url')
 let fs = require('fs')
 let query = require('querystring')
@@ -44,7 +45,7 @@ module.exports = (req, res) => {
 
         let emptyTitle = todoParsed.title === '' || undefined
         let emptyDesc = todoParsed.description === '' || undefined
-        
+
         if (!(emptyTitle || emptyDesc)) {
           let index = todos.length
           let today = datesHelper.getToday()

@@ -6,10 +6,10 @@ let responsesHelper = require('../helpers/responses')
 let datesHelper = require('../helpers/dates')
 let todoState = require('../helpers/todo-state')
 
-let db = require('../contents/mock-db')
+let todos = require('../contents/mock-db')
 
-let mainP = './contents/html/index.html'
-let createPage = './contents/html/create.html'
+let mainPageHtml = './contents/html/index.html'
+let createPageHtml = './contents/html/create.html'
 
 module.exports = (req, res) => {
   req.pathname = req.pathname || url.parse(req.url).pathname
@@ -17,43 +17,60 @@ module.exports = (req, res) => {
   if (req.pathname === '/create') {
     let pageHeading = 'Create new TODO'
     let pageContent = ''
-    let html = ''
 
-    let mainPage = fs.readFileSync(mainP, 'utf8')
+    let mainPage = fs.readFileSync(mainPageHtml, 'utf8')
     let pageHeader = mainPage.split('#')[0]
     let pageMenu = mainPage.split('#')[1]
     let pageFooter = mainPage.split('#')[2]
 
+    let html = ''
+
     if (req.method === 'GET') {
-      pageContent = fs.readFileSync(createPage, 'utf8')
+      pageContent = fs.readFileSync(createPageHtml, 'utf8')
+
+      html = pageHeader +
+        pageHeading +
+        pageMenu +
+        pageContent +
+        pageFooter
+
+      responsesHelper.ok(res, html, 'text/html')
     } else if (req.method === 'POST') {
       var body = ''
 
       req.on('data', (data) => { body += data })
       req.on('end', () => {
-        let today = datesHelper.getToday()
         let todoParsed = query.parse(body)
-        let index = db.length
-        let todoItem = {
-          'id': index,
-          'title': todoParsed.title,
-          'description': todoParsed.description,
-          'state': todoState.Pending,
-          'dateCreated': today
+
+        let emptyTitle = todoParsed.title === '' || undefined
+        let emptyDesc = todoParsed.description === '' || undefined
+        
+        if (!(emptyTitle || emptyDesc)) {
+          let index = todos.length
+          let today = datesHelper.getToday()
+          let todoItem = {
+            'id': index,
+            'title': todoParsed.title,
+            'description': todoParsed.description,
+            'state': todoState.Pending,
+            'dateCreated': today,
+            'comments': []
+          }
+          todos.push(todoItem)
+          pageContent = '<h2>TODO created</h2>'
+        } else {
+          pageContent = '<h4>Empty Details. Try Again.</h4>'
         }
-        db.push(todoItem)
+
+        html = pageHeader +
+        pageHeading +
+        pageMenu +
+        pageContent +
+        pageFooter
+
+        responsesHelper.ok(res, html, 'text/html')
       })
-
-      pageContent = '<h2>TODO created</h2>'
     }
-
-    html = pageHeader +
-      pageHeading +
-      pageMenu +
-      pageContent +
-      pageFooter
-
-    responsesHelper.ok(res, html, 'text/html')
   } else {
     return true // handler does support request
   }

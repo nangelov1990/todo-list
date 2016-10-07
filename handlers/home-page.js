@@ -18,9 +18,12 @@ module.exports = (req, res) => {
       let pageMenu = data.split('#')[1]
       let pageFooter = data.split('#')[2]
 
+      let pageContent = '<h1>Welcome to TODO List Web App</h1>'
+
       let html = pageHeader +
         pageHeading +
         pageMenu +
+        pageContent +
         pageFooter
 
       responsesHelper.ok(res, html, 'text/html')

@@ -1,20 +1,20 @@
 module.exports = {
+  plain,
   notFound,
   ok
 }
 
-function notFound (err, res, adText) {
+function notFound (res, data, type, err) {
   console.error(err)
-
-  res.writeHead(404)
-  res.write('404 NOT FOUND' + adText)
-  res.end()
-
-  return
+  plain(404, res, data, type)
 }
 
 function ok (res, data, type) {
-  res.writeHead(200, {
+  plain(200, res, data, type)
+}
+
+function plain (code, res, data, type) {
+  res.writeHead(code, {
     'Content-Length': data.length,
     'Content-Type': type,
     'Connection': 'keep-alive',

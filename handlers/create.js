@@ -8,18 +8,24 @@ let todoState = require('../helpers/todo-state')
 
 let db = require('../contents/mock-db')
 
+let mainP = './contents/html/index.html'
+let createPage = './contents/html/create.html'
+
 module.exports = (req, res) => {
   req.pathname = req.pathname || url.parse(req.url).pathname
 
   if (req.pathname === '/create') {
-    if (req.method === 'GET') {
-      fs.readFile('./contents/html/create.html', (err, data) => {
-        if (err) {
-          responsesHelper.notFound(err, res, ': TODO create page')
-        }
+    let pageHeading = 'Create new TODO'
+    let pageContent = ''
+    let html = ''
 
-        responsesHelper.ok(res, data, 'text/html')
-      })
+    let mainPage = fs.readFileSync(mainP, 'utf8')
+    let pageHeader = mainPage.split('#')[0]
+    let pageMenu = mainPage.split('#')[1]
+    let pageFooter = mainPage.split('#')[2]
+
+    if (req.method === 'GET') {
+      pageContent = fs.readFileSync(createPage, 'utf8')
     } else if (req.method === 'POST') {
       var body = ''
 
@@ -36,11 +42,18 @@ module.exports = (req, res) => {
           'dateCreated': today
         }
         db.push(todoItem)
-
-        let todoCreatedHtml = '<a href="/">Home</a><br /><h2>TODO created</h2>'
-        responsesHelper.ok(res, todoCreatedHtml, 'text/html')
       })
+
+      pageContent = '<h2>TODO created</h2>'
     }
+
+    html = pageHeader +
+      pageHeading +
+      pageMenu +
+      pageContent +
+      pageFooter
+
+    responsesHelper.ok(res, html, 'text/html')
   } else {
     return true // handler does support request
   }

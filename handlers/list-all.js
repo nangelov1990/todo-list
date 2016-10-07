@@ -2,6 +2,7 @@ let url = require('url')
 let fs = require('fs')
 
 let responseHelper = require('../helpers/responses')
+let sortHelper = require('../helpers/sorters')
 
 let todos = require('../contents/mock-db')
 
@@ -26,6 +27,7 @@ module.exports = (req, res) => {
       }
 
       let todoList = ''
+      todos.sort((todoA, todoB) => sortHelper.sortByStateThenByDate(todoA, todoB))
       todos.forEach((todo) => {
         todoList += `<li><a href="/details/${todo.id}"><h3>${todo.title}</h3></a>
         <span>Descrition: ${todo.description}</span>
@@ -37,7 +39,6 @@ module.exports = (req, res) => {
         pageBottom
 
       responseHelper.ok(res, html, 'text/html')
-      console.log(todos)
     })
   } else {
     return true // handler does not support request

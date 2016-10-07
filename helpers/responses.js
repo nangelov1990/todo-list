@@ -14,7 +14,7 @@ function ok (res, data, type) {
   plain(200, res, data, type)
 }
 
-function plain (code, res, data, type) {
+function plain (res, data, type, code) {
   res.writeHead(code, {
     'Content-Length': data.length,
     'Content-Type': type,

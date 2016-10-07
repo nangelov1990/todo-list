@@ -85,7 +85,7 @@ module.exports = (req, res) => {
     }
 
 
-    responsesHelper.plain(code, res, html, 'text/html')
+    responsesHelper.plain(res, html, 'text/html', code)
   } else {
     return true // handler does not support request
   }

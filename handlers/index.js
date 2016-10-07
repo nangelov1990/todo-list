@@ -1,10 +1,10 @@
 'use strict'
-let homePage = require('./home-page')
-let createTodo = require('./create')
-let allTodos = require('./list-all')
-let todoDetails = require('./details')
-let comments = require('./comments')
-let staticFiles = require('./static-files')
+var homePage = require('./home-page')
+var createTodo = require('./create')
+var allTodos = require('./list-all')
+var todoDetails = require('./details')
+var comments = require('./comments')
+var staticFiles = require('./static-files')
 
 module.exports = [
   homePage,

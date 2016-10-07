@@ -1,10 +1,10 @@
 'use strict'
-let url = require('url')
-let query = require('querystring')
+var url = require('url')
+var query = require('querystring')
 
-let datesHelper = require('../helpers/dates')
+var datesHelper = require('../helpers/dates')
 
-let todos = require('../contents/mock-db')
+var todos = require('../contents/mock-db')
 
 module.exports = (req, res) => {
   req.pathname = req.pathname || url.parse(req.url).pathname
@@ -12,21 +12,21 @@ module.exports = (req, res) => {
   if (req.pathname.startsWith('/details/') &&
       req.pathname.endsWith('/comments') &&
       req.method === 'POST') {
-    let urlSplit = req.pathname.split('/')
-    let index = parseInt(urlSplit[urlSplit.length - 2])
-    let itemPos = todos.map((x) => x.id).indexOf(index)
-    let todo = todos[itemPos]
+    var urlSplit = req.pathname.split('/')
+    var index = parseInt(urlSplit[urlSplit.length - 2])
+    var itemPos = todos.map((x) => x.id).indexOf(index)
+    var todo = todos[itemPos]
 
     if (todo) {
-      let body = ''
+      var body = ''
 
       req.on('data', (data) => { body += data })
       req.on('end', () => {
-        let commentText = query.parse(body).comment
+        var commentText = query.parse(body).comment
 
         if (commentText) {
-          let today = datesHelper.getToday()
-          let commentItem = {
+          var today = datesHelper.getToday()
+          var commentItem = {
             'text': commentText,
             'dateCreated': today
           }

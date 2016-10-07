@@ -5,8 +5,8 @@ module.exports = {
 }
 
 function sortByStateThenByDate (todoA, todoB) {
-  let x = todoA.state[0]
-  let y = todoB.state[0]
+  var x = todoA.state[0]
+  var y = todoB.state[0]
   if (x === y) {
     return compareDates(todoA.dateCreated, todoB.dateCreated)
   }
@@ -14,12 +14,12 @@ function sortByStateThenByDate (todoA, todoB) {
 }
 
 function compareDates (dateA, dateB) {
-  let dayA = dateA.day
-  let dayB = dateB.day
-  let monthA = dateA.month
-  let monthB = dateB.month
-  let yearA = dateA.year
-  let yearB = dateB.year
+  var dayA = dateA.day
+  var dayB = dateB.day
+  var monthA = dateA.month
+  var monthB = dateB.month
+  var yearA = dateA.year
+  var yearB = dateB.year
   if (yearA === yearB) {
     if (monthA === monthB) {
       return dayA < dayB ? -1 : dayA > dayB ? 1 : 0

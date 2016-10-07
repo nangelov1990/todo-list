@@ -1,30 +1,30 @@
 'use strict'
-let url = require('url')
-let fs = require('fs')
-let query = require('querystring')
+var url = require('url')
+var fs = require('fs')
+var query = require('querystring')
 
-let responsesHelper = require('../helpers/responses')
-let datesHelper = require('../helpers/dates')
-let todoState = require('../helpers/todo-state')
+var responsesHelper = require('../helpers/responses')
+var datesHelper = require('../helpers/dates')
+var todoState = require('../helpers/todo-state')
 
-let todos = require('../contents/mock-db')
+var todos = require('../contents/mock-db')
 
-let mainPageHtml = './contents/html/index.html'
-let createPageHtml = './contents/html/create.html'
+var mainPageHtml = './contents/html/index.html'
+var createPageHtml = './contents/html/create.html'
 
 module.exports = (req, res) => {
   req.pathname = req.pathname || url.parse(req.url).pathname
 
   if (req.pathname === '/create') {
-    let pageHeading = 'Create new TODO'
-    let pageContent = ''
+    var pageHeading = 'Create new TODO'
+    var pageContent = ''
 
-    let mainPage = fs.readFileSync(mainPageHtml, 'utf8')
-    let pageHeader = mainPage.split('#')[0]
-    let pageMenu = mainPage.split('#')[1]
-    let pageFooter = mainPage.split('#')[2]
+    var mainPage = fs.readFileSync(mainPageHtml, 'utf8')
+    var pageHeader = mainPage.split('#')[0]
+    var pageMenu = mainPage.split('#')[1]
+    var pageFooter = mainPage.split('#')[2]
 
-    let html = ''
+    var html = ''
 
     if (req.method === 'GET') {
       pageContent = fs.readFileSync(createPageHtml, 'utf8')
@@ -41,15 +41,15 @@ module.exports = (req, res) => {
 
       req.on('data', (data) => { body += data })
       req.on('end', () => {
-        let todoParsed = query.parse(body)
+        var todoParsed = query.parse(body)
 
-        let emptyTitle = todoParsed.title === '' || undefined
-        let emptyDesc = todoParsed.description === '' || undefined
+        var emptyTitle = todoParsed.title === '' || undefined
+        var emptyDesc = todoParsed.description === '' || undefined
 
         if (!(emptyTitle || emptyDesc)) {
-          let index = todos.length
-          let today = datesHelper.getToday()
-          let todoItem = {
+          var index = todos.length
+          var today = datesHelper.getToday()
+          var todoItem = {
             'id': index,
             'title': todoParsed.title,
             'description': todoParsed.description,

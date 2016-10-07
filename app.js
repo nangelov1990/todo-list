@@ -1,14 +1,14 @@
 'use strict'
-let http = require('http')
+var http = require('http')
 
-let handlers = require('./handlers/index')
+var handlers = require('./handlers/index')
 
-let port = process.env.PORT || 2993
+var port = process.env.PORT || 2993
 
 http
   .createServer((req, res) => {
-    for (let handler of handlers) {
-      let next = handler(req, res)
+    for (var handler of handlers) {
+      var next = handler(req, res)
       if (!next) {
         break
       }

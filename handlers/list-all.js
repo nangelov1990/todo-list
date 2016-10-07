@@ -1,25 +1,25 @@
 'use strict'
-let url = require('url')
-let fs = require('fs')
+var url = require('url')
+var fs = require('fs')
 
-let responseHelper = require('../helpers/responses')
-let sortHelper = require('../helpers/sorters')
+var responseHelper = require('../helpers/responses')
+var sortHelper = require('../helpers/sorters')
 
-let todos = require('../contents/mock-db')
+var todos = require('../contents/mock-db')
 
-let mainPageHtml = './contents/html/index.html'
+var mainPageHtml = './contents/html/index.html'
 
 module.exports = (req, res) => {
   req.pathname = req.pathname || url.parse(req.url).pathname
 
   if (req.pathname === '/all' && req.method === 'GET') {
-    let pageHeading = 'All TODOs'
-    let pageContent = ''
+    var pageHeading = 'All TODOs'
+    var pageContent = ''
 
-    let mainPage = fs.readFileSync(mainPageHtml, 'utf8')
-    let pageHeader = mainPage.split('#')[0]
-    let pageMenu = mainPage.split('#')[1]
-    let pageFooter = mainPage.split('#')[2]
+    var mainPage = fs.readFileSync(mainPageHtml, 'utf8')
+    var pageHeader = mainPage.split('#')[0]
+    var pageMenu = mainPage.split('#')[1]
+    var pageFooter = mainPage.split('#')[2]
 
 
     if (!todos) {
@@ -38,7 +38,7 @@ module.exports = (req, res) => {
     })
     pageContent += '</ul>'
 
-    let html = pageHeader +
+    var html = pageHeader +
       pageHeading +
       pageMenu +
       pageContent +

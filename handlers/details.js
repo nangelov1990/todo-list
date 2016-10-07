@@ -1,43 +1,43 @@
 'use strict'
-let url = require('url')
-let fs = require('fs')
+var url = require('url')
+var fs = require('fs')
 
-let todos = require('../contents/mock-db')
-let todoState = require('../helpers/todo-state')
+var todos = require('../contents/mock-db')
+var todoState = require('../helpers/todo-state')
 
-let responsesHelper = require('../helpers/responses.js')
+var responsesHelper = require('../helpers/responses.js')
 
-let mainPageHtml = './contents/html/index.html'
+var mainPageHtml = './contents/html/index.html'
 const detailsPageHtml = './contents/html/details.html'
 
 module.exports = (req, res) => {
   req.pathname = req.pathname || url.parse(req.url).pathname
 
   if (req.pathname.startsWith('/details/')) {
-    let urlSplit = req.pathname.split('/')
-    let index = parseInt(urlSplit[urlSplit.length - 1])
-    let itemPos = todos.map((x) => x.id).indexOf(index)
-    let todo = todos[itemPos]
+    var urlSplit = req.pathname.split('/')
+    var index = parseInt(urlSplit[urlSplit.length - 1])
+    var itemPos = todos.map((x) => x.id).indexOf(index)
+    var todo = todos[itemPos]
 
-    let pageHeading = 'TODO Details'
-    let pageContent = ''
-    let code = 200
-    let html = ''
+    var pageHeading = 'TODO Details'
+    var pageContent = ''
+    var code = 200
+    var html = ''
 
-    let mainPage = fs.readFileSync(mainPageHtml, 'utf8').split('#')
-    let pageHeader = mainPage[0]
-    let pageMenu = mainPage[1]
-    let pageFooter = mainPage[2]
+    var mainPage = fs.readFileSync(mainPageHtml, 'utf8').split('#')
+    var pageHeader = mainPage[0]
+    var pageMenu = mainPage[1]
+    var pageFooter = mainPage[2]
 
     if (todo) {
-      let detailsPage = fs.readFileSync(detailsPageHtml, 'utf8').split('#')
-      let pageTop = detailsPage[0]
-      let afterName = detailsPage[1]
-      let afterDesc = detailsPage[2]
-      let pageBottomDone = detailsPage[3]
-      let pageBottomPend = detailsPage[4]
-      let pageCommentsHeading = detailsPage[5]
-      let pageCommentsForm = detailsPage[6]
+      var detailsPage = fs.readFileSync(detailsPageHtml, 'utf8').split('#')
+      var pageTop = detailsPage[0]
+      var afterName = detailsPage[1]
+      var afterDesc = detailsPage[2]
+      var pageBottomDone = detailsPage[3]
+      var pageBottomPend = detailsPage[4]
+      var pageCommentsHeading = detailsPage[5]
+      var pageCommentsForm = detailsPage[6]
 
       pageContent += pageTop +
         todo.title + afterName +
@@ -51,7 +51,7 @@ module.exports = (req, res) => {
         }
       }
 
-      let isPending = todo.state === todoState.Pending
+      var isPending = todo.state === todoState.Pending
       isPending
         ? pageContent += todo.state + pageBottomDone
         : pageContent += todo.state + pageBottomPend

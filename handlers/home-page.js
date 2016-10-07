@@ -1,8 +1,8 @@
 'use strict'
-let url = require('url')
-let fs = require('fs')
+var url = require('url')
+var fs = require('fs')
 
-let responsesHelper = require('../helpers/responses.js')
+var responsesHelper = require('../helpers/responses.js')
 
 const homePage = './contents/html/index.html'
 
@@ -13,15 +13,15 @@ module.exports = (req, res) => {
     fs.readFile(homePage, 'utf8', (err, data) => {
       if (err) responsesHelper.notFound(err, res, ': Home page')
 
-      let pageHeading = 'TODO List Home'
+      var pageHeading = 'TODO List Home'
 
-      let pageHeader = data.split('#')[0]
-      let pageMenu = data.split('#')[1]
-      let pageFooter = data.split('#')[2]
+      var pageHeader = data.split('#')[0]
+      var pageMenu = data.split('#')[1]
+      var pageFooter = data.split('#')[2]
 
-      let pageContent = '<h1>Welcome to TODO List Web App</h1>'
+      var pageContent = '<h1>Welcome to TODO List Web App</h1>'
 
-      let html = pageHeader +
+      var html = pageHeader +
         pageHeading +
         pageMenu +
         pageContent +

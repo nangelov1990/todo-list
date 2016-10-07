@@ -1,8 +1,8 @@
 'use strict'
-let fs = require('fs')
-let url = require('url')
+var fs = require('fs')
+var url = require('url')
 
-let responsesHelper = require('../helpers/responses.js')
+var responsesHelper = require('../helpers/responses.js')
 
 function getContentType (filepath) {
   var contentType
@@ -22,12 +22,12 @@ function getContentType (filepath) {
 
 module.exports = (req, res) => {
   req.pathname = req.pathname || url.parse(req.url).pathname
-  let filepath = '.' + req.pathname
+  var filepath = '.' + req.pathname
 
   fs.readFile(filepath, (err, data) => {
     if (err) responsesHelper.notFound(err, res, '')
 
-    let contentType = getContentType(filepath)
+    var contentType = getContentType(filepath)
 
     if (!contentType) {
       console.error('Non-supported file format requested.')

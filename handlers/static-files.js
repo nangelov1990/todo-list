@@ -25,7 +25,10 @@ module.exports = (req, res) => {
   var filepath = '.' + req.pathname
 
   fs.readFile(filepath, (err, data) => {
-    if (err) responsesHelper.notFound(err, res, '')
+    if (err) {
+      responsesHelper.notFound(res, '', '', err)
+      return
+    }
 
     var contentType = getContentType(filepath)
 

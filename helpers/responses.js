@@ -7,11 +7,11 @@ module.exports = {
 
 function notFound (res, data, type, err) {
   console.error(err)
-  plain(404, res, data, type)
+  plain(res, data, type, 404)
 }
 
 function ok (res, data, type) {
-  plain(200, res, data, type)
+  plain(res, data, type, 200)
 }
 
 function plain (res, data, type, code) {

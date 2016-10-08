@@ -1,7 +1,7 @@
 'use strict'
 var http = require('http')
 
-var handlers = require('./handlers/index')
+var handlers = require('./handlers/index').handlers
 
 var port = process.env.PORT || 2993
 

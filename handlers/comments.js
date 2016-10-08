@@ -3,8 +3,9 @@ var url = require('url')
 var query = require('querystring')
 
 var datesHelper = require('../helpers/dates')
+var responsesHelper = require('../helpers/responses')
 
-var todos = require('../contents/mock-db')
+var todos = require('./index').db
 
 module.exports = (req, res) => {
   req.pathname = req.pathname || url.parse(req.url).pathname
@@ -38,9 +39,18 @@ module.exports = (req, res) => {
           res.end()
 
           console.log(todo)
+        } else {
+
         }
       })
     }
+
+    responsesHelper.redirected(
+      res,
+      String.empty,
+      String.empty,
+      `/details/${index}`
+    )
   } else {
     return true // handler does not support request
   }

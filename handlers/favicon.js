@@ -6,7 +6,7 @@ module.exports = (req, res) => {
   req.pathname = req.pathname || url.parse(req.url).pathname
 
   if (req.pathname === '/favicon.ico') {
-    fs.readFile('./content/favicon.ico', (err, data) => {
+    fs.readFile('./contents/favicon.ico', (err, data) => {
       if (err) {
         console.error(err)
 

@@ -5,7 +5,7 @@ var fs = require('fs')
 var responseHelper = require('../helpers/responses')
 var sortHelper = require('../helpers/sorters')
 
-var todos = require('../contents/mock-db')
+var todos = require('./index').db
 
 var mainPageHtml = './contents/html/index.html'
 
@@ -22,7 +22,7 @@ module.exports = (req, res) => {
     var pageFooter = mainPage.split('#')[2]
 
 
-    if (!todos) {
+    if (todos.length <= 0) {
       pageContent = `<h3>No TODOs yet.</h3>`
     }
 

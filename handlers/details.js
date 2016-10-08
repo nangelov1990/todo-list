@@ -2,7 +2,7 @@
 var url = require('url')
 var fs = require('fs')
 
-var todos = require('../contents/mock-db')
+var todos = require('./index').db
 var todoState = require('../helpers/todo-state')
 
 var responsesHelper = require('../helpers/responses.js')

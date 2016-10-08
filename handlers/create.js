@@ -7,7 +7,7 @@ var responsesHelper = require('../helpers/responses')
 var datesHelper = require('../helpers/dates')
 var todoState = require('../helpers/todo-state')
 
-var todos = require('../contents/mock-db')
+var todos = require('./index').db
 
 var mainPageHtml = './contents/html/index.html'
 var createPageHtml = './contents/html/create.html'

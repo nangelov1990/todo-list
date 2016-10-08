@@ -34,10 +34,12 @@ module.exports = (req, res) => {
       var pageTop = detailsPage[0]
       var afterName = detailsPage[1]
       var afterDesc = detailsPage[2]
-      var pageBottomDone = detailsPage[3]
-      var pageBottomPend = detailsPage[4]
-      var pageCommentsHeading = detailsPage[5]
-      var pageCommentsForm = detailsPage[6]
+      var afterState = detailsPage[3]
+      var image = detailsPage[4]
+      var pageBottomDone = detailsPage[5]
+      var pageBottomPend = detailsPage[6]
+      var pageCommentsHeading = detailsPage[7]
+      var pageCommentsForm = detailsPage[8]
 
       pageContent += pageTop +
         todo.title + afterName +
@@ -53,8 +55,15 @@ module.exports = (req, res) => {
 
       var isPending = todo.state === todoState.Pending
       isPending
-        ? pageContent += todo.state + pageBottomDone
-        : pageContent += todo.state + pageBottomPend
+        ? pageContent += todo.state + afterState + pageBottomDone
+        : pageContent += todo.state + afterState + pageBottomPend
+
+      if (todo.image !== '') {
+        let imageTag = image.split('?')[0]
+        let imageEnd = image.split('?')[1]
+
+        pageContent += imageTag + todo.image + imageEnd
+      }
 
       pageContent += pageCommentsHeading +
         todo.id +

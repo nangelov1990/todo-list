@@ -2,6 +2,7 @@
 var url = require('url')
 var fs = require('fs')
 var query = require('querystring')
+var multiparty = require('multiparty')
 
 var responsesHelper = require('../helpers/responses')
 var datesHelper = require('../helpers/dates')
@@ -37,31 +38,56 @@ module.exports = (req, res) => {
 
       responsesHelper.ok(res, html, 'text/html')
     } else if (req.method === 'POST') {
-      var body = ''
+      var title = ''
+      var desc = ''
+      var filename = ''
+      var form = new multiparty.Form()
 
-      req.on('data', (data) => { body += data })
-      req.on('end', () => {
-        var todoParsed = query.parse(body)
+      form.parse(req)
 
-        var emptyTitle = todoParsed.title === '' || undefined
-        var emptyDesc = todoParsed.description === '' || undefined
-
-        if (!(emptyTitle || emptyDesc)) {
-          var index = todos.length
-          var today = datesHelper.getToday()
-          var todoItem = {
-            'id': index,
-            'title': todoParsed.title,
-            'description': todoParsed.description,
-            'state': todoState.Pending,
-            'dateCreated': today,
-            'comments': []
-          }
-          todos.push(todoItem)
-          pageContent = '<h2>TODO created</h2>'
+      form.on('part', (part) => {
+        if (part.filename) {
+          var file = ''
+          part.setEncoding('base64')
+          part.on('data', (data) => { file += data })
+          part.on('end', () => {
+            fs.writeFile(`./images/${part.filename}`, file)
+            filename = part.filename
+          })
         } else {
-          pageContent = '<h4>Empty Details. Try Again.</h4>'
+          let body = ''
+          part.setEncoding('utf8')
+          part.on('data', (data) => {
+            console.log(data)
+            body += data
+          })
+          part.on('end', () => {
+            if (part.name === 'title') {
+              title = body
+            } else {
+              desc = body
+            }
+          })
         }
+      })
+
+      form.on('close', () => {
+        var index = todos.length
+        var today = datesHelper.getToday()
+
+        var todoItem = {
+          'id': index,
+          'title': title,
+          'description': desc,
+          'state': todoState.Pending,
+          'dateCreated': today,
+          'image': filename,
+          'comments': []
+        }
+        console.log(todoItem)
+
+        todos.push(todoItem)
+        pageContent = '<h2>TODO created</h2>'
 
         html = pageHeader +
         pageHeading +
@@ -70,6 +96,7 @@ module.exports = (req, res) => {
         pageFooter
 
         responsesHelper.ok(res, html, 'text/html')
+        console.log(todoItem)
       })
     }
   } else {

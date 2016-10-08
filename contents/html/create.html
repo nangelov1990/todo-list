@@ -1,9 +1,9 @@
-<form action="/create" method="POST">
+<form action="/create" method="POST" enctype="multipart/form-data">
   <input type="text" name="title" placeholder="Title" required="required">
   <br />
   <textarea name="description" placeholder="Description" required="required"></textarea>
   <br />
-  <input type="file" name="image" value="E:\Code.Proj\SU.Proj\Open.Courses\Node.js\04.NodeJS-Workshop\todo-list\images">
+  <input type="file" name="image">
   <br />
   <input type="submit">
 </form>
